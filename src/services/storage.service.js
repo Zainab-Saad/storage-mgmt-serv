@@ -27,3 +27,14 @@ export const updateStorageRecord = async (userId, totalStorageUsed) => {
     }
   });
 };
+
+export const updateAlertSent = async (userId, alertSent) => {
+  return await db.storageRecord.update({
+    where: {
+      userId
+    },
+    data: {
+      alertSent
+    }
+  });
+};
