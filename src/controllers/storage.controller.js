@@ -104,17 +104,17 @@ export const updateStorage = async (req, res, next) => {
         return resFailure(res, storageErrors.DELETE_IMAGE_SIZE_EXCEEDED);
       }
 
+      storageRecord = await updateStorageRecord(
+        storageRecord.userId,
+        storageRecord.totalStorageUsed - imageSize,
+        isThresholdReached
+      );
       if (
         storageRecord.alertSent &&
         storageRecord.totalStorageUsed < STORAGE_THRESHOLD_IN_BYTES
       ) {
         await updateAlertSent(storageRecord.userId, false);
       }
-      storageRecord = await updateStorageRecord(
-        storageRecord.userId,
-        storageRecord.totalStorageUsed - imageSize,
-        isThresholdReached
-      );
     }
 
     return resSuccess(res, 'Storage update successful', {
